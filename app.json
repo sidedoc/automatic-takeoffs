@@ -1,0 +1,20 @@
+{
+  "name": "server app",
+  "scripts": {},
+  "env": {
+    "OPENCV4NODEJS_DISABLE_AUTOBUILD": {
+      "required": true,
+      "value": 1
+    }
+  },
+ 
+  "stack": "heroku-16",
+
+  "buildpacks": [{
+    "url": "starkast/cmake"
+  }, {
+    "url": "https://github.com/onboardiq/heroku16-buildpack-opencv3.git"
+  }, {
+    "url": "heroku/nodejs"
+  }]
+}
