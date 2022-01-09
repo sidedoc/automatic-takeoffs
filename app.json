@@ -11,7 +11,7 @@
   "stack": "heroku-16",
 
   "buildpacks": [{
-    "url": "starkast/cmake"
+    "url": "https://github.com/Starkast/heroku-buildpack-cmake.git"
   }, {
     "url": "https://github.com/onboardiq/heroku16-buildpack-opencv3.git"
   }, {
