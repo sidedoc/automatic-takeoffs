@@ -80,15 +80,9 @@ app.get('/api/templatematching', cors(), (req, res) => {
   res.json(results);
 });
 
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static('../client-app/build'));
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-//   });
-// }
 const port = process.env.PORT || 5001; // the or logic is heroku
 
-//heroku
+// hide for develompent - keep for docker after updating the react build file to latest version
 app.use(express.static(path.join(__dirname, 'build')));
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
