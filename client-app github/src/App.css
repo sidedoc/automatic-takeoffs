@@ -1,0 +1,13 @@
+.app {
+  text-align: center;
+}
+
+.app input {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
