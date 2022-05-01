@@ -32,14 +32,17 @@ function ImageCropper(props) {
       onImageCropped(croppedImage);
     }
   }
-
+  // Potential fix to the resizing issue https://github.com/DominicTobias/react-image-crop/issues/263
+  // This fix has been made from https://stackoverflow.com/questions/62585425/how-can-i-crop-an-image-on-the-client-side-without-losing-resolution-using-react
   function getCroppedImage(sourceImage, cropConfig, fileName) {
     // creating the cropped image from the source image
+    const image = sourceImage;
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
     const canvas = document.createElement('canvas');
-    const scaleX = sourceImage.naturalWidth / sourceImage.width;
-    const scaleY = sourceImage.naturalHeight / sourceImage.height;
-    canvas.width = cropConfig.width;
-    canvas.height = cropConfig.height;
+
+    canvas.width = cropConfig.width * scaleX;
+    canvas.height = cropConfig.height * scaleY;
     const ctx = canvas.getContext('2d');
 
     ctx.drawImage(
@@ -50,8 +53,8 @@ function ImageCropper(props) {
       cropConfig.height * scaleY,
       0,
       0,
-      cropConfig.width,
-      cropConfig.height
+      cropConfig.width * scaleX,
+      cropConfig.height * scaleY
     );
 
     return new Promise((resolve, reject) => {

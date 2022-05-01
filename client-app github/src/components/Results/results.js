@@ -1,18 +1,31 @@
+import './results.css';
+
 function Results(props) {
-  const serverResponse = props;
-  console.log(props.serverResponse);
+  //const serverResponse = props; // this is useless
+  //console.log(props.serverResponse);
+  //console.log('Function Called');
 
   return (
-    <div>
-      <h2>Results</h2>
-      <ul>
-        <li>
-          <p>Takeoff Status: {props.serverResponse.status} </p>
-          <p>The total number of matches is: {props.serverResponse.takeoffCount}</p>
-        </li>
-      </ul>
+    <div className="table">
+      <table>
+        <tr>
+          <th>Item</th>
+          <th>Count</th>
+          <th>Status</th>
+        </tr>
+        {props.serverResponse.map((val, key) => {
+          return (
+            <tr key={key}>
+              <td>
+                <img alt="template" src={val.templateImg} max-height={75} max-width={150}></img>
+              </td>
+              <td>{val.takeoffCount}</td>
+              <td>{val.status}</td>
+            </tr>
+          );
+        })}
+      </table>
     </div>
   );
 }
-
 export default Results;

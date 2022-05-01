@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
 import ImageCropper from './components/ImageCropper';
-import Count from './components/Count/count.js';
 import Results from './components/Results/results.js';
 import demoImage from './components//ImageCropper/demoImage.jpg';
+
+const serverResponse = [];
 
 function App() {
   // Declares a new state variable: imageToCrop, and new setting function: setImageToCrop
   const [imageToCrop, setImageToCrop] = useState(undefined); // useState() returns a variable and a setter func
   const [croppedImage, setCroppedImage] = useState(undefined);
-  const [resultImage, setResultImage] = useState(undefined);
-  const [serverResponse, setServerResponse] = useState({
-    status: 'Ready to count',
-    resultImage: null,
-    takeoffCount: '',
-  });
 
   // only called when uploading a file
   const onUploadFile = (event) => {
@@ -99,30 +94,36 @@ function App() {
         },
         body: JSON.stringify(data),
       };
+
       fetch('/api/send', options)
         .then((res) => res.json())
         .then(
           (results) => (
-            setServerResponse(results),
             b64toBlob(
               results.resultImage,
               function (blob) {
                 let url = window.URL.createObjectURL(blob);
-                setResultImage(url);
+                //setResultImage(url);
+                setImageToCrop(url); // Include this line to update ImageToCrop with the template matched image (Result Image)
               },
               function (error) {}
             ),
-            console.log('Response Object:', serverResponse)
-            //console.log(resultImage)
+            //setServerResponse(results),
+            serverResponse.push(results)
+            //console.log('Response Object:', serverResponse)
           )
         );
     };
+
     postToServer();
   }
 
   return (
     <div className="app">
-      <input type="file" accept="image/*" onChange={onUploadFile} />
+      <label className="drawing-upload">
+        <input type="file" accept="image/*" onChange={onUploadFile} />
+        Upload Drawing
+      </label>
       <div>
         <ImageCropper
           imageToCrop={imageToCrop}
@@ -130,17 +131,15 @@ function App() {
         />
       </div>
       {croppedImage && (
-        <div>
-          <h2>Cropped Image</h2>
+        <div className="croppedImg">
           <img alt="Cropped Img" src={croppedImage} />
         </div>
       )}
       <div className="app input">
-        <button onClick={CountBtn}>Count Items</button>
+        <button className="button" onClick={CountBtn}>
+          Count Items
+        </button>
         <Results serverResponse={serverResponse} />
-      </div>
-      <div>
-        <img alt="Result Img" src={resultImage} className="img-fluid" />
       </div>
     </div>
   );

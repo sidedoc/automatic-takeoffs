@@ -7,7 +7,49 @@
   margin-bottom: 20px;
 }
 
+.croppedImg {
+  margin-top: 50px;
+  margin-bottom: 25px;
+}
+
 .img-fluid {
   max-width: 100%;
   height: auto;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.drawing-upload {
+  border: 2px solid rgb(35, 54, 221);
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 22px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.drawing-upload:hover {
+  background-color: rgb(35, 54, 221);
+  color: white;
+}
+
+.button {
+  background-color: #ffffff; /* Green */
+  border: 2px solid rgb(35, 54, 221);
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 22px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgb(35, 54, 221);
+  color: white;
 }
