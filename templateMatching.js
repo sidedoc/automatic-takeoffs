@@ -1,6 +1,6 @@
 // 1. load in opencv4nodejs -> theres a trick to installing this, rewatch youtuube video for this trick
 const cv = require('opencv4nodejs'); // use for development
-//const cv = require('/node_modules/opencv4nodejs'); // for docker
+//const cv = require('/node_modules/opencv4nodejs'); // for docker build
 
 module.exports = {
   templateMatching: async function (draw, template) {

@@ -12,8 +12,11 @@ app.use(express.json({ limit: '10mb' })); // changed from 1mb to 10mb due to siz
 let response = {
   status: 'Failed',
   resultImage: null,
+  templateImg: null,
   takeoffCount: null,
 };
+
+let increment = 0;
 
 // function to encode file data to base64 encoded string
 function fileToBase64(file) {
@@ -40,52 +43,34 @@ app.post('/api/send', cors(), (req, res) => {
 
   function templateMatchingFunc() {
     // run template matching
-    (async () => {
-      const templateMatchingOutput = await matching.templateMatching(
-        './input/constructionDrawing.jpg',
-        './input/templateImage.jpg'
-      );
-      response.takeoffCount = templateMatchingOutput;
-    })();
-    response.status = 'Success';
+    matching
+      .templateMatching('./input/constructionDrawing.jpg', './input/templateImage.jpg')
+      .then((result) => {
+        response.takeoffCount = result;
+        response.status = 'Success';
+        response.resultImage = 'data:image/jpeg;base64,' + fileToBase64('./output/results.jpg');
+        response.templateImg =
+          'data:image/jpeg;base64,' + fileToBase64('./input/templateImage.jpg');
+        res.json(response);
+      })
+      .catch((err) => {
+        //response.status = 'Failed';
+        // res.json(response);
+        console.log(`Error Messege: ${err}`);
+      });
   }
   // ensures the template matching function waits for the Base64 to jpg conversion
   setTimeout(function () {
     templateMatchingFunc();
-  }, 0);
-
-  setTimeout(function () {
-    response.resultImage = 'data:image/jpeg;base64,' + fileToBase64('./output/results.jpg');
-    res.json(response);
-  }, 1000); // eventually change this to happen straight after rather than after a set time.
-});
-
-// sends the results array to the client on a GET request
-app.get('/api/templatematching', cors(), (req, res) => {
-  const results = [
-    {
-      id: 1,
-      image: 'image/blob/URL/here',
-      templateImage: 'template/image/blob/URL/here',
-      takeoffCount: '100',
-    },
-    {
-      id: 2,
-      image: 'image/blob2/URL/here',
-      templateImage: 'template/image/blob2/URL/here',
-      takeoffCount: '40',
-    },
-  ];
-
-  res.json(results);
+  }, 20); // this was originally 0, 20 seems to make it work more consitantly
 });
 
 const port = process.env.PORT || 5001; // the or logic is heroku
 
 // hide for develompent - keep for docker after updating the react build file to latest version
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+// app.use(express.static(path.join(__dirname, 'build')));
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
 
 app.listen(port, () => `Server running on port ${port}`);
