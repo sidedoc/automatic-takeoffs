@@ -17,3 +17,6 @@ Development
 - [ ] Comment out the server.js code that points to the build folder.
 - [ ] Include reference to OpenCV in package.json - change packge.json from Build to Dev.
 - [ ] Run npm start in client folder and node server in server folder.
+
+
+http://automatic-takeoffs.herokuapp.com/
