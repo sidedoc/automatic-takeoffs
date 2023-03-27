@@ -11,7 +11,7 @@ This backend runs the core functionality of the app, OpenCV's 'template matching
 This app is then deployed via docker.
 
 
-The web app can be viewed here: http://automatic-takeoffs.herokuapp.com/
+The web app can be viewed here: https://automatic-takeoffs.up.railway.app/
 
 
 # Upload to Heroku or Run Locally
@@ -25,7 +25,6 @@ Production Deploy
 - [ ] Ensure server.js points to the ‘build’ folder.
 - [ ] Remove reference to OpenCV in package.json - change package.json from Dev to Build.
 - [ ] Build docker image: docker build -t app-name .
-- [ ] Go through heroku CLI procedure above. (https://www.youtube.com/watch?v=tTwGdUTR5h8&ab_channel=SyndriTraining)
 - [ ] \*\* Use the test file to run opencv docker containers to allow ability to command line into it and see where opencv4node is installed.
 
 Development
