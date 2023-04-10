@@ -14,7 +14,7 @@ This app is then deployed via docker.
 The web app can be viewed here: https://automatic-takeoffs.up.railway.app/
 
 
-# Upload to Heroku or Run Locally
+# Dockerise for Production or Run Locally
 OpenCV needs Node Version 14 to run.
 In Dev both the Client and Sever Terminals need Node v14 to run (use NVM)
 
