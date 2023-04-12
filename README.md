@@ -18,6 +18,9 @@ The web app can be viewed here: https://automatic-takeoffs.up.railway.app/
 # Dockerise for Production or Run Locally
 In Dev both the Client and Server Terminals need Node v14 to run (use NVM)
 
+To run locally set up file structure as below. Put all files from repo into server-app folder except for client-app.
+![image](https://user-images.githubusercontent.com/64473926/231519371-7fa41b66-ade7-4b77-8bac-874f206bd81f.png)
+
 Production Deploy
 
 - [ ] Build react app and copy build folder into server folder.
