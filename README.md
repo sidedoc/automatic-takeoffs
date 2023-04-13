@@ -7,7 +7,7 @@ I attempted to automate this task.
 
 # Demo Video
 
-![Watch the video](https://www.youtube.com/watch?v=sEZFV8aP4tY&ab_channel=JoeRonaldson)
+View demo video here: [https://youtu.be/sEZFV8aP4tY](https://youtu.be/sEZFV8aP4tY)
 
 # How it works - Architecture
 A react.js frontend enables a image to be uploaded and a crop to be taken.
