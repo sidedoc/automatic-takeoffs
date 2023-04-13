@@ -5,6 +5,10 @@ Completing a takeoff is normally a manual process where you count, by hand, the 
 
 I attempted to automate this task.
 
+# Demo Video
+
+![Watch the video](https://www.youtube.com/watch?v=sEZFV8aP4tY&ab_channel=JoeRonaldson)
+
 # How it works - Architecture
 A react.js frontend enables a image to be uploaded and a crop to be taken.
 This gets sent via an api to a express backend.
