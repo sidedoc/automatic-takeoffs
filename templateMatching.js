@@ -1,21 +1,20 @@
-// 1. load in opencv4nodejs -> theres a trick to installing this, rewatch youtuube video for this trick
 const cv = require('opencv4nodejs'); // use for development
 //const cv = require('/node_modules/opencv4nodejs'); // for docker build
 
 module.exports = {
   templateMatching: async function (draw, template) {
-    // 2. load template and board image - the two file names are hard coded in here. Make sure the files are in the current directory.
+    // Loads the template image and drawing
     const drawing = await cv.imreadAsync(draw);
     const templateImage = await cv.imreadAsync(template);
 
-    // 3. run template matching
+    // Runs the template matching
     const matched = drawing.matchTemplate(templateImage, cv.TM_CCOEFF_NORMED);
 
     let items = [];
 
     let maxVal = null;
     while (true) {
-      // 4. keep getting minMax while value still near max
+      // Keep getting minMax while value still near max
       const minMax = matched.minMaxLoc();
       const x = minMax.maxLoc.x;
       const y = minMax.maxLoc.y;
@@ -29,7 +28,7 @@ module.exports = {
         break;
       }
 
-      // 5. Removes results that are right beside the original image
+      // Removes results that are right beside the original image - avoids near duplications
       for (let i = 0; i < templateImage.rows; i++) {
         for (let j = 0; j < templateImage.cols; j++) {
           const tx = x + j - templateImage.cols / 2;
@@ -53,8 +52,6 @@ module.exports = {
     const count = items.length;
 
     cv.imwrite('./output/results.jpg', drawing);
-    //cv.imshow('Results', drawing);
-    //cv.waitKey();
     return count;
   },
 };
