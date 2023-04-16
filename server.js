@@ -1,14 +1,14 @@
 const express = require('express');
 cors = require('cors');
 fs = require('fs');
-const path = require('path'); // gets the path.join method working for heroku
+const path = require('path'); // Imported for path.join method wwhen un commented
 
 const matching = require('./templateMatching.js');
 
 const app = express();
-app.use(express.json({ limit: '10mb' })); // changed from 1mb to 10mb due to size of ImageToCrop
+app.use(express.json({ limit: '10mb' }));
 
-// default response to client
+// Default response to client
 let response = {
   status: 'Failed',
   resultImage: null,
@@ -18,18 +18,14 @@ let response = {
 
 let increment = 0;
 
-// function to encode file data to base64 encoded string
+// Function to encode file data to base64 encoded string
 function fileToBase64(file) {
-  // read binary data
   let bitmap = fs.readFileSync(file);
-  // convert binary data to base64 encoded string
   return new Buffer.from(bitmap).toString('base64');
 }
 
-// receives data from client + console.logs
+// Receives data from client
 app.post('/api/send', cors(), (req, res) => {
-  // console.log(req.body);
-
   let templateImage = req.body.templateImage.replace(/^data:image\/\w+;base64,/, '');
   let image = req.body.image.replace(/^data:image\/\w+;base64,/, '');
 
@@ -42,7 +38,7 @@ app.post('/api/send', cors(), (req, res) => {
   fs.writeFile('./input/constructionDrawing.jpg', image, { encoding: 'base64' }, function (err) {});
 
   function templateMatchingFunc() {
-    // run template matching
+    // Run template matching
     matching
       .templateMatching('./input/constructionDrawing.jpg', './input/templateImage.jpg')
       .then((result) => {
@@ -54,20 +50,18 @@ app.post('/api/send', cors(), (req, res) => {
         res.json(response);
       })
       .catch((err) => {
-        //response.status = 'Failed';
-        // res.json(response);
         console.log(`Error Messege: ${err}`);
       });
   }
-  // ensures the template matching function waits for the Base64 to jpg conversion
+  // Ensures the template matching function waits for the Base64 to jpg conversion
   setTimeout(function () {
     templateMatchingFunc();
-  }, 20); // this was originally 0, 20 seems to make it work more consitantly
+  }, 20);
 });
 
-const port = process.env.PORT || 5001; // the or logic is heroku
+const port = process.env.PORT || 5001;
 
-// hide for develompent - keep for docker after updating the react build file to latest version
+// Hide for develompent - keep for docker after updating the react build file to latest version
 // app.use(express.static(path.join(__dirname, 'build')));
 // app.get('/*', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'build', 'index.html'));
