@@ -23,7 +23,6 @@ function App() {
       });
 
       reader.readAsDataURL(event.target.files[0]); // this is the uploaded file parsed with FileReader
-      // console.log(event.target.files[0]); // interesting format for the file.
     }
   };
 
@@ -61,7 +60,6 @@ function App() {
       var res = await fetch(url);
       var blob = await res.blob();
       var uri = await parseURI(blob);
-      //console.log(uri);
       return uri;
     }
 
