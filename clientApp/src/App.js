@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import ImageCropper from './components/ImageCropper';
 import Results from './components/Results/results.js';
-import demoImage from './components//ImageCropper/demoImage.jpg';
+import demoImage from './components/ImageCropper/demoImage.jpg';
 
 const serverResponse = [];
 
@@ -44,11 +44,9 @@ function App() {
     img.src = b64;
   }
 
-  // button to start the backend process
+  // Button to start the backend process
   // send a api call to the template matching service run with node/express and receive an object with image and count.
   function CountBtn() {
-    //console.log(`Cropped Image URL: ${croppedImage}, Image to Crop URL: ${imageToCrop}`);
-
     // the next two functions are used to convert blobURLs to Base64
     async function parseURI(d) {
       var reader = new FileReader();
@@ -103,14 +101,11 @@ function App() {
               results.resultImage,
               function (blob) {
                 let url = window.URL.createObjectURL(blob);
-                //setResultImage(url);
                 setImageToCrop(url); // Include this line to update ImageToCrop with the template matched image (Result Image)
               },
               function (error) {}
             ),
-            //setServerResponse(results),
             serverResponse.push(results)
-            //console.log('Response Object:', serverResponse)
           )
         );
     };

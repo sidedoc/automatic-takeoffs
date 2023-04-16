@@ -1,10 +1,6 @@
 import './results.css';
 
 function Results(props) {
-  //const serverResponse = props; // this is useless
-  //console.log(props.serverResponse);
-  //console.log('Function Called');
-
   return (
     <div className="table">
       <table>

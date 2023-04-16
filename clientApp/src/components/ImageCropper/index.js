@@ -26,14 +26,10 @@ function ImageCropper(props) {
         crop,
         'croppedImage.jpeg' // destination filename
       );
-
-      // calling the props function to expose
-      // croppedImage to the parent component
+      // calling the props function to expose croppedImage to the parent component
       onImageCropped(croppedImage);
     }
   }
-  // Potential fix to the resizing issue https://github.com/DominicTobias/react-image-crop/issues/263
-  // This fix has been made from https://stackoverflow.com/questions/62585425/how-can-i-crop-an-image-on-the-client-side-without-losing-resolution-using-react
   function getCroppedImage(sourceImage, cropConfig, fileName) {
     // creating the cropped image from the source image
     const image = sourceImage;
