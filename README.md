@@ -23,12 +23,12 @@ The web app can be viewed here: https://automatic-takeoffs.up.railway.app/
 
 ### Running Locally
 
-- [ ] To run please use node version 14
+- [ ] node version 14 is required
 - [ ] Run 'npm start'
 
 For Production Deployment ensure the following changes are made:
 
-- [ ] Build react app and replace the current build folder with the new one.
+- [ ] Run "npm run build" to build react app.
 - [ ] Ensure templateMatching.js points to the correct opencv4node location. (See top of the file).
 - [ ] Ensure server.js points to the 'build' folder.
 - [ ] Remove reference to OpenCV in package.json. (Change package.json from Dev to Build).
