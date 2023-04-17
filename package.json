@@ -1,12 +1,10 @@
 {
-  "name": "server-app",
+  "name": "automatic-takeoffs",
   "version": "1.0.0",
-  "description": "Backend service for running the Template matching process",
+  "description": "Runs the Template matching process",
   "main": " server.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "run": "(cd clientApp && npm start) & node server.js"
+    "start": "node server.js & cd clientApp && npm start"
   },
   "author": "Joe Ronaldson",
   "license": "MIT",
