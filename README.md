@@ -29,5 +29,5 @@ The web app can be viewed here: https://automatic-takeoffs.up.railway.app/
 For Production Deployment ensure the following changes are made:
 
 - [ ] Run "npm run build" to build react app.
-- [ ] Remove reference to OpenCV in package.json. (Change package.json from Dev to Build).
+- [ ] Remove reference to OpenCV in package.json. (Change package.json to dockerPackage.json).
 - [ ] Build docker image: docker build -t app-name.
