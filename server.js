@@ -61,10 +61,14 @@ app.post('/api/send', cors(), (req, res) => {
 
 const port = process.env.PORT || 5001;
 
-// Hide for develompent - keep for docker after updating the react build file to latest version
-// app.use(express.static(path.join(__dirname, 'build')));
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
+const environment = process.env.NODE_ENV || 'docker';
+
+if (environment === 'docker') {
+  app.use(express.static(path.join(__dirname, 'build')));
+  app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+  console.log('docker');
+}
 
 app.listen(port, () => `Server running on port ${port}`);

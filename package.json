@@ -4,8 +4,8 @@
   "description": "Runs the Template matching process",
   "main": " server.js",
   "scripts": {
-    "start": "node server.js & cd clientApp && npm start",
-    "build": "cd clientApp && npm run build && mv ./build ../build"
+    "start": "NODE_ENV=local node server.js & cd clientApp && npm start",
+    "build": "cd clientApp && NODE_ENV=docker npm run build && mv ./build ../build"
   },
   "author": "Joe Ronaldson",
   "license": "MIT",
