@@ -1,33 +1,35 @@
-# The Idea - Automatic Takeoffs
+# Automatic Takeoffs
 
-This is a MVP for a web app designed to automatically complete construction drawing takeoffs.
+This is the MVP code for a web app that can automatically count any symbol in an image. A computer vision technique called template matching is used.
 
-Completing a takeoff is normally a manual process where you count, by hand, the number of symbols on the construction drawing. This process is repeated for the hundreds of contruction drawings in each project.
+# Use Case
 
-I attempted to automate this task.
+Throughout the construction industry, PDF drawings are the go-to method for displaying information about the project. These drawings show the type and locations of items the contractor must install under their scope of work. During the tender stage and throughout the lifecycle of the project, quantities are counted from the drawings in what are called material takeoffs. Currently, this is a manual process whereby items are counted one by one, with the quantities being transferred to an Excel spreadsheet. This can be a massively time-consuming process and also introduces human error when performing takeoffs on hundreds of drawings.
 
-# Demo Video
-
-View demo video here: [https://youtu.be/sEZFV8aP4tY](https://youtu.be/sEZFV8aP4tY)
-
-# How it works - Architecture
-
-A react.js frontend enables a image to be uploaded and a crop to be taken.
-This gets sent via an api to a express backend.
-The backend runs the core functionality of the app and uses a computer vision technique called template matching from OpenCV.
-This app is then deployed via docker.
+My solution attempts to automate this process using a computer vision technique known as template matching.
 
 The web app can be viewed here: https://automatic-takeoffs.up.railway.app/
 
-# Dockerise for Production or Run Locally
+A demo video can be viewed here: [https://youtu.be/sEZFV8aP4tY](https://youtu.be/sEZFV8aP4tY)
+
+# How it works
+
+- A react.js frontend enables a image to be uploaded and a crop to be taken.
+- This gets sent via an api to a express backend.
+- The backend runs the core functionality of the app and uses a computer vision technique called template matching from OpenCV.
+- This app is then deployed via docker.
+
+# How to run
 
 ### Running Locally
 
-- [ ] node version 14 is required
-- [ ] Run 'npm start'
+To run locally ensure you are using **Node Version 14** and simply run `npm install` to install the dependancies followed by `npm start` to run the app.
 
-For Production Deployment ensure the following changes are made:
+### Creating a Docker Image
 
-- [ ] Run "npm run build" to build react app.
-- [ ] Remove reference to OpenCV in package.json. (Change package.json to dockerPackage.json).
-- [ ] Build docker image: docker build -t app-name.
+To get around any difficulties installing `opnecv4nodejs` a docker image with the package already installed on it can be used.
+
+To build the docker image simply run `docker build -t automatic-takeoffs . `
+Running `docker run -p 5001:5001 automatic-takeoffs` will startup a container with the app available at `http://localhost:5001/`
+
+If the developming th eapp further using the docker method run `npm run build` before building the new docker image. This builds the react frontend and reduces the bundle size.

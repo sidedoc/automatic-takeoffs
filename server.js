@@ -59,8 +59,6 @@ app.post('/api/send', cors(), (req, res) => {
   }, 20);
 });
 
-const port = process.env.PORT || 5001;
-
 const environment = process.env.NODE_ENV || 'docker';
 
 if (environment === 'docker') {
@@ -68,7 +66,8 @@ if (environment === 'docker') {
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
-  console.log('docker');
 }
+
+const port = process.env.PORT || 5001;
 
 app.listen(port, () => `Server running on port ${port}`);

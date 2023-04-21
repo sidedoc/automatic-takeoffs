@@ -2,7 +2,9 @@ FROM vinhtranvan/opencv4nodejs-alpine
 
 WORKDIR /usr/local/app
 
-COPY package*.json ./
+COPY dockerPackage.json ./
+
+RUN mv ./dockerPackage.json ./package.json
 
 RUN npm install
 
@@ -12,4 +14,4 @@ ENV PORT=5001
 
 EXPOSE 5001
 
-CMD [ "node", "server.js"]
+CMD [ "NODE_ENV=docker", "node", "server.js"]
