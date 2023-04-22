@@ -14,4 +14,4 @@ ENV PORT=5001
 
 EXPOSE 5001
 
-CMD [ "NODE_ENV=docker", "node", "server.js"]
+CMD [ "node", "server.js"]
