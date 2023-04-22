@@ -1,10 +1,10 @@
 const environment = process.env.NODE_ENV || 'docker';
 
 if (environment === 'docker') {
-  const cv = require('/node_modules/opencv4nodejs'); // for docker build
+  let cv = require('/node_modules/opencv4nodejs'); // for docker build
 }
 
-const cv = require('opencv4nodejs'); // for development
+let cv = require('opencv4nodejs'); // for development
 
 module.exports = {
   templateMatching: async function (draw, template) {
