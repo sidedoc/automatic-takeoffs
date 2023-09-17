@@ -32,4 +32,4 @@ To get around any difficulties installing `opnecv4nodejs` a docker image with th
 To build the docker image simply run `docker build -t automatic-takeoffs . `
 Running `docker run -p 5001:5001 automatic-takeoffs` will startup a container with the app available at `http://localhost:5001/`
 
-If the developing the app further using the docker method run `npm run build` before building the new docker image. This builds the react frontend and reduces the bundle size.
+If developing the app further using the docker method run `npm run build` before building the new docker image. This builds the react frontend and reduces the bundle size.
