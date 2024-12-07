@@ -1,28 +1,16 @@
-FROM node:14-alpine
+FROM node:14
 
 # Install system dependencies
-RUN apk add --no-cache \
-    python3 \
-    make \
-    g++ \
-    jpeg-dev \
-    cairo-dev \
-    giflib-dev \
-    pango-dev \
-    libtool \
-    autoconf \
-    automake \
+RUN apt-get update && apt-get install -y \
+    build-essential \
     cmake \
-    build-base \
-    wget \
-    unzip \
-    opencv \
-    opencv-dev
+    python3 \
+    libopencv-dev
 
-# Set environment variables for OpenCV build
+# Set environment variables
 ENV OPENCV4NODEJS_DISABLE_AUTOBUILD=1
-ENV OPENCV_VERSION=4.5.4
-ENV OPENCV_DIR=/usr
+ENV PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
+ENV LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
 WORKDIR /usr/local/app
 
@@ -30,10 +18,8 @@ WORKDIR /usr/local/app
 COPY dockerPackage.json ./
 RUN mv ./dockerPackage.json ./package.json
 
-# Install npm dependencies and build OpenCV
-RUN npm install && \
-    cd node_modules/@u4/opencv-build && \
-    npm run install-opencv
+# Install npm dependencies
+RUN npm install
 
 # Copy the rest of the application
 COPY . .
