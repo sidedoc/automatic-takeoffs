@@ -1,14 +1,14 @@
 const environment = process.env.NODE_ENV || 'docker';
 if (environment === 'docker') {
-  let cv = require('@u4/opencv4nodejs'); // for docker build
+  let cv = require('@techstark/opencv-js'); // for docker build
 }
-let cv = require('@u4/opencv4nodejs'); // for development
+let cv = require('@techstark/opencv-js'); // for development
 
 module.exports = {
   templateMatching: async function (draw, template) {
     // Loads the template image and drawing
-    const drawing = await cv.imreadAsync(draw);
-    const templateImage = await cv.imreadAsync(template);
+    const drawing = await cv.imread(draw);
+    const templateImage = await cv.imread(template);
     // Runs the template matching
     const matched = drawing.matchTemplate(templateImage, cv.TM_CCOEFF_NORMED);
     let items = [];
@@ -39,7 +39,7 @@ module.exports = {
       items.push(x);
       drawing.drawRectangle(
         new cv.Rect(x, y, templateImage.cols, templateImage.rows),
-        new cv.Vec(0, 0, 255),
+        new cv.Vec3(0, 0, 255),
         2,
         cv.LINE_8
       );
