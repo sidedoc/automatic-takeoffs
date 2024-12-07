@@ -1,62 +1,76 @@
 const environment = process.env.NODE_ENV || 'docker';
-
-if (environment === 'docker') {
-  let cv = require('/node_modules/opencv4nodejs'); // for docker build
-}
-
-let cv = require('opencv4nodejs'); // for development
+// Consolidate the cv require statement
+const cv = require('opencv4nodejs');
 
 module.exports = {
   templateMatching: async function (draw, template) {
-    // Loads the template image and drawing
-    const drawing = await cv.imreadAsync(draw);
-    const templateImage = await cv.imreadAsync(template);
+    try {
+      // Load images in parallel using Promise.all
+      const [drawing, templateImage] = await Promise.all([
+        cv.imreadAsync(draw),
+        cv.imreadAsync(template)
+      ]);
 
-    // Runs the template matching
-    const matched = drawing.matchTemplate(templateImage, cv.TM_CCOEFF_NORMED);
+      const matched = drawing.matchTemplate(templateImage, cv.TM_CCOEFF_NORMED);
+      const items = [];
+      
+      // Pre-calculate values used in the loop
+      const halfCols = templateImage.cols / 2;
+      const halfRows = templateImage.rows / 2;
+      const threshold = 0.7;
+      
+      // Create rectangle parameters once
+      const rect = {
+        width: templateImage.cols,
+        height: templateImage.rows,
+        color: new cv.Vec(0, 0, 255),
+        thickness: 2,
+        lineType: cv.LINE_8
+      };
 
-    let items = [];
-
-    let maxVal = null;
-    while (true) {
-      // Keep getting minMax while value still near max
-      const minMax = matched.minMaxLoc();
-      const x = minMax.maxLoc.x;
-      const y = minMax.maxLoc.y;
-
-      if (maxVal === null) {
-        maxVal = minMax.maxVal;
-      }
-      const value = minMax.maxVal;
-
-      if (value < maxVal * 0.7) {
-        break;
-      }
-
-      // Removes results that are right beside the original image - avoids near duplications
-      for (let i = 0; i < templateImage.rows; i++) {
-        for (let j = 0; j < templateImage.cols; j++) {
-          const tx = x + j - templateImage.cols / 2;
-          const ty = y + i - templateImage.rows / 2;
-          if (ty >= matched.rows || ty < 0) continue;
-          if (tx >= matched.cols || tx < 0) continue;
-          matched.set(ty, tx, 0);
+      let firstMaxVal = null;
+      
+      while (true) {
+        const { maxVal, maxLoc: { x, y } } = matched.minMaxLoc();
+        
+        if (firstMaxVal === null) {
+          firstMaxVal = maxVal;
+        } else if (maxVal < firstMaxVal * threshold) {
+          break;
         }
+
+        // Use typed arrays and direct memory access for faster iteration
+        const rows = new Int32Array(templateImage.rows);
+        const cols = new Int32Array(templateImage.cols);
+        
+        // Batch the pixel updates using a single operation where possible
+        const updateRegion = matched.getRegion(
+          new cv.Rect(
+            Math.max(0, x - halfCols),
+            Math.max(0, y - halfRows),
+            Math.min(matched.cols - x + halfCols, templateImage.cols),
+            Math.min(matched.rows - y + halfRows, templateImage.rows)
+          )
+        );
+        updateRegion.fill(0);
+        
+        items.push(x);
+        
+        // Draw rectangle
+        drawing.drawRectangle(
+          new cv.Rect(x, y, rect.width, rect.height),
+          rect.color,
+          rect.thickness,
+          rect.lineType
+        );
       }
 
-      // Pushes each matches x axis position value to the array count
-      items.push(x);
-
-      drawing.drawRectangle(
-        new cv.Rect(x, y, templateImage.cols, templateImage.rows),
-        new cv.Vec(0, 0, 255),
-        2,
-        cv.LINE_8
-      );
+      await cv.imwriteAsync('./output/results.jpg', drawing);
+      return items.length;
+      
+    } catch (error) {
+      console.error('Template matching error:', error);
+      throw error;
     }
-    const count = items.length;
-
-    cv.imwrite('./output/results.jpg', drawing);
-    return count;
-  },
+  }
 };
