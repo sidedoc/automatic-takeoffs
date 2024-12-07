@@ -1,9 +1,8 @@
 const environment = process.env.NODE_ENV || 'docker';
 if (environment === 'docker') {
-  let cv = require('@techstark/opencv-js'); // for docker build
+  let cv = require('/node_modules/@techstark/opencv-js'); // for docker build
 }
 let cv = require('@techstark/opencv-js'); // for development
-
 module.exports = {
   templateMatching: async function (draw, template) {
     // Loads the template image and drawing
