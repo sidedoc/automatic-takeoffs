@@ -1,6 +1,6 @@
 const environment = process.env.NODE_ENV || 'docker';
-// Consolidate the cv require statement
-const cv = require('opencv4nodejs');
+// Updated cv require statement
+const cv = require('@u4/opencv4nodejs');
 
 module.exports = {
   templateMatching: async function (draw, template) {
@@ -10,7 +10,6 @@ module.exports = {
         cv.imreadAsync(draw),
         cv.imreadAsync(template)
       ]);
-
       const matched = drawing.matchTemplate(templateImage, cv.TM_CCOEFF_NORMED);
       const items = [];
       
@@ -27,7 +26,6 @@ module.exports = {
         thickness: 2,
         lineType: cv.LINE_8
       };
-
       let firstMaxVal = null;
       
       while (true) {
@@ -38,7 +36,6 @@ module.exports = {
         } else if (maxVal < firstMaxVal * threshold) {
           break;
         }
-
         // Use typed arrays and direct memory access for faster iteration
         const rows = new Int32Array(templateImage.rows);
         const cols = new Int32Array(templateImage.cols);
@@ -64,7 +61,6 @@ module.exports = {
           rect.lineType
         );
       }
-
       await cv.imwriteAsync('./output/results.jpg', drawing);
       return items.length;
       
