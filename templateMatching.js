@@ -29,7 +29,7 @@ module.exports = {
       }
       const value = minMax.maxVal;
 
-      if (value < maxVal * 0.9) {
+      if (value < maxVal * 0.5) {
         break;
       }
 
