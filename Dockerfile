@@ -33,7 +33,7 @@ RUN mv ./dockerPackage.json ./package.json
 # Install npm dependencies and build OpenCV
 RUN npm install && \
     cd node_modules/@u4/opencv-build && \
-    npm run build-opencv
+    npm run install-opencv
 
 # Copy the rest of the application
 COPY . .
