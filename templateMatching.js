@@ -1,11 +1,18 @@
 const environment = process.env.NODE_ENV || 'docker';
 let cv;
 
-// Initialize cv based on environment
-if (environment === 'docker') {
-  cv = require('/node_modules/@u4/opencv4nodejs'); // for docker build
-} else {
-  cv = require('@u4/opencv4nodejs'); // for development
+try {
+  // For Docker environment
+  if (environment === 'docker') {
+    cv = require('@u4/opencv4nodejs');
+  } 
+  // For local development
+  else {
+    cv = require('@u4/opencv4nodejs');
+  }
+} catch (error) {
+  console.error('Error loading OpenCV:', error);
+  process.exit(1);
 }
 
 module.exports = {
@@ -17,13 +24,12 @@ module.exports = {
         cv.imreadAsync(template)
       ]);
 
-      // Runs the template matching
+      // Rest of your template matching code...
       const matched = drawing.matchTemplate(templateImage, cv.TM_CCOEFF_NORMED);
       const items = [];
       let maxVal = null;
 
       while (true) {
-        // Keep getting minMax while value still near max
         const minMax = matched.minMaxLoc();
         const { x, y } = minMax.maxLoc;
 
@@ -35,7 +41,7 @@ module.exports = {
           break;
         }
 
-        // Removes results that are right beside the original image - avoids near duplications
+        // Process matching results...
         for (let i = 0; i < templateImage.rows; i++) {
           for (let j = 0; j < templateImage.cols; j++) {
             const tx = x + j - templateImage.cols / 2;
@@ -48,10 +54,7 @@ module.exports = {
           }
         }
 
-        // Pushes each matches x axis position value to the array count
         items.push(x);
-
-        // Draw rectangle around matched area
         drawing.drawRectangle(
           new cv.Rect(x, y, templateImage.cols, templateImage.rows),
           new cv.Vec(0, 0, 255),
@@ -60,7 +63,6 @@ module.exports = {
         );
       }
 
-      // Write results and return count
       await cv.imwriteAsync('./output/results.jpg', drawing);
       return items.length;
     } catch (error) {
