@@ -2,7 +2,7 @@
   "name": "server-app",
   "version": "1.0.0",
   "description": "Backend service for running the Template matching process",
-  "main": " server.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js"
@@ -11,10 +11,10 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "@u4/opencv4nodejs": "^6.5.2"
   },
-
   "engines": {
-    "node": "14.18.1"
+    "node": ">=16.0.0"
   }
 }
