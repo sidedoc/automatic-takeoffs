@@ -1,19 +1,5 @@
-const environment = process.env.NODE_ENV || 'docker';
-let cv;
-
-try {
-  // For Docker environment
-  if (environment === 'docker') {
-    cv = require('@u4/opencv4nodejs');
-  } 
-  // For local development
-  else {
-    cv = require('@u4/opencv4nodejs');
-  }
-} catch (error) {
-  console.error('Error loading OpenCV:', error);
-  process.exit(1);
-}
+// Simple import since we're handling environment in Docker configuration
+const cv = require('@u4/opencv4nodejs');
 
 module.exports = {
   templateMatching: async function (draw, template) {
@@ -24,7 +10,7 @@ module.exports = {
         cv.imreadAsync(template)
       ]);
 
-      // Rest of your template matching code...
+      // Runs the template matching
       const matched = drawing.matchTemplate(templateImage, cv.TM_CCOEFF_NORMED);
       const items = [];
       let maxVal = null;
@@ -41,7 +27,7 @@ module.exports = {
           break;
         }
 
-        // Process matching results...
+        // Removes results that are right beside the original image
         for (let i = 0; i < templateImage.rows; i++) {
           for (let j = 0; j < templateImage.cols; j++) {
             const tx = x + j - templateImage.cols / 2;
