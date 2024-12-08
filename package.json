@@ -16,9 +16,5 @@
   },
   "engines": {
     "node": ">=16.0.0"
-  },
-  "opencv4nodejs": {
-    "disableAutoBuild": 1,
-    "autoBuildBuildCuda": 0
   }
 }
