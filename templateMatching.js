@@ -7,7 +7,7 @@ let cv = require('opencv4nodejs'); // for development
 module.exports = {
   templateMatching: async function (draw, template) {
     // Loads the template image and drawing
-    const [drawing, templateImage] = await Promise.all([
+    let [drawing, templateImage] = await Promise.all([
       cv.imreadAsync(draw),
       cv.imreadAsync(template)
     ]);
